@@ -11,10 +11,10 @@ par_arr = @[]
 seq_arr.add( new_print("hello", 1) )
 seq_arr.add( new_print("world", 2) )
 
-par_arr.add( new_print("dead", 3) )
-par_arr.add( new_print("beef", 4) )
-
-var p = new_parallel(lanes=par_arr)
+#par_arr.add( new_print("dead", 3) )
+#par_arr.add( new_print("beef", 4) )
+#var p = new_parallel(lanes=par_arr)
+var p = new_print("dead", 3) & new_print("beef", 4) & new_print("code", 5)
 seq_arr.add(p)
 var v = new_sequential(steps=seq_arr)
 

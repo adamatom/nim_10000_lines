@@ -32,3 +32,10 @@ method resources*(self: Sequential): seq[int] =
 
 method serialize*(self: Sequential, indent: string): string =
     return indent & "sequential{}"
+
+proc `,`*(e1,e2: Executors): Sequential =
+    var es: seq[Executor]
+    es = @[]
+    es.add(e1)
+    es.add(e2)
+    return new_sequential(steps=es)
