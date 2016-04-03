@@ -35,13 +35,19 @@ method handle_event*(self: Parallel, event: Event) =
     assert(self.resource_to_lane.contains(event.device))
     self.resource_to_lane[event.device].handle_event(event)
 
-method resources*(self: Parallel): seq[int] = 
+method resources*(self: Parallel): seq[int] =
     var resources: seq[int]
     for lane in self.lanes:
         resources.add(resources)
 
 method serialize*(self: Parallel, indent: string): string =
-    return indent & "parallel{}"
+    result = indent & "parallel{\n"
+    for lane in self.lanes:
+        result &= lane.serialize(indent & "    ") & ",\n"
+    result &= indent & "}"
+
+proc `$`*(p: Parallel):string =
+    return p.serialize("")
 
 proc `&`*(e1, e2: Executor): Parallel =
     var es: seq[Executor]

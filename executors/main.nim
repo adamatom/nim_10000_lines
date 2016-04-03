@@ -3,23 +3,18 @@ import Sequential
 import Parallel
 import Executor
 
-var seq_arr: seq[Executor]
-var par_arr: seq[Executor]
-seq_arr = @[]
-par_arr = @[]
 
-seq_arr.add( new_print("hello", 1) )
-seq_arr.add( new_print("world", 2) )
-
-#par_arr.add( new_print("dead", 3) )
-#par_arr.add( new_print("beef", 4) )
-#var p = new_parallel(lanes=par_arr)
 var p = new_print("dead", 3) & new_print("beef", 4) & new_print("code", 5)
-seq_arr.add(p)
-var v = new_sequential(steps=seq_arr)
+var s = new_print("hello", 1) $ new_print("world", 2)
+var v = s $ p
 
 var count = 0
 proc getnext():Event =
-    count += 1
+    case count
+    of 3: count = 5
+    of 5: count = 4
+    of 4: count = 6
+    else: count += 1
     result = (device: count, status: 1, time: 1)
 v.execute(getnext)
+echo $s
