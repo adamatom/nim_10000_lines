@@ -25,8 +25,11 @@ method handle_event*(self: Executor, event: Event) {.base.} = discard
 method resources*(self: Executor): seq[int] {.base.} = discard
 method serialize*(self: Executor, indent: string): string {.base.} = discard
 
+proc `$`*(self: Executor): string =
+    return self.serialize("")
+
 #not expected to be overridden, but go nuts if it helps
-proc execute*[T](self: T, get_next_event: NextEventSource) =
+method execute*(self: Executor, get_next_event: NextEventSource) {.base.} =
     self.start( ()=>(self.done=true) )
     while not self.done:
         self.handle_event(get_next_event())

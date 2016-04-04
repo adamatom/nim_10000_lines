@@ -17,4 +17,4 @@ proc getnext():Event =
     else: count += 1
     result = (device: count, status: 1, time: 1)
 v.execute(getnext)
-echo $s
+echo($v)
