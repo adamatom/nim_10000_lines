@@ -20,7 +20,7 @@ proc possibly_done(self: Parallel) =
 method start*(self: Parallel, done_fn: DoneCallback) =
     self.done_fn = done_fn
     self.oustanding_lanes = len(self.lanes)
-    self.resource_to_lane = initTable[int, Executor](self.oustanding_lanes)
+    self.resource_to_lane = initTable[int, Executor]()
     for lane_id,lane in self.lanes:
         let resources = lane.resources()
         for resource in resources:
